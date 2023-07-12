@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
+# DuckyZip
+
 <img src="https://ducky.zip/assets/img/logo.png" alt="" align="left" height="256" style="margin:10px" />
 
 URL shorteners are a common online service that allows the shortening of a long URL (often a Google Maps URL or similar) into a much shorter one, to use for example on social media or in QR codes. However, URL shorteners are free to behave dishonestly: they can, for instance, map a short URL into a long URL honestly for one party, while redirecting some other party into a different malicious long URL for the same short URL.
