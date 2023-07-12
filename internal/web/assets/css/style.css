@@ -1,0 +1,92 @@
+body {
+	font-family: sans-serif;
+}
+
+div#main {
+	width: 90%;
+	max-width: 800px;
+	margin: 0 auto;
+	overflow: auto;
+}
+
+div#main img#logo {
+	width: 128px;
+	height: auto;
+	float: left;
+	position: relative;
+	top: 10px;
+}
+
+div#main h1 {
+	margin-top: 50px;
+	margin-bottom: 5px;
+}
+
+div#main h2 {
+	margin-top: 0;
+	font-size: 1.1em;
+	font-weight: normal;
+}
+
+div#main p#intro {
+	width: 90%;
+	margin-top: 50px;
+}
+
+div#shortenForm {
+	margin-top: 50px;
+	overflow: auto;
+}
+
+div#shortenForm input#shortenInput {
+	padding: 5px;
+	font-size: 1.2em;
+	margin-bottom: 20px;
+	width: 98%;
+	display: block;
+}
+
+div#shortenForm button#shortenButton {
+	float: right;
+	width: 100px;
+	height: 100px;
+	font-size: 1.5em;
+}
+
+div#captchaSection {
+	border-radius: 5px;
+	padding: 10px;
+	background-color: #EEE;
+	width: 200px;
+	float: left;
+	opacity: 0;
+}
+
+div#captchaSection input#captchaID {
+	display: none;
+}
+
+div#captchaSection img#captchaImg {
+	display: block;
+	width: 200px;
+	height: auto;
+}
+
+div#captchaSection input#captchaResponse {
+
+}
+
+div#messageArea {
+	padding: 10px;
+	color: #FFF;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+div#messageArea.good {
+	background-color: green;
+}
+
+div#messageArea.bad {
+	background-color: red;
+}
