@@ -68,8 +68,8 @@ func Write(key string, value string) error {
 		return err
 	}
 	auth.Nonce = big.NewInt(int64(nonce))
-	auth.Value = big.NewInt(0)     // in wei
-	auth.GasLimit = uint64(300000) // in units
+	auth.Value = big.NewInt(0)
+	auth.GasLimit = uint64(300000)
 	auth.GasPrice = gasPrice
 	address := common.HexToAddress(ContractAddress)
 	instance, err := simpleStorage.NewSimpleStorage(address, client)
