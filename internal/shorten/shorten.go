@@ -43,7 +43,7 @@ func GenShortURL(longURL string) (string, store.URLEntry, error) {
 	if err != nil {
 		return shortURL, store.URLEntry{}, err
 	}
-	contract.Write(
+	err = contract.Write(
 		strings.Join([]string{
 			urlEntry.VRFValue0,
 			urlEntry.VRFProof0,
