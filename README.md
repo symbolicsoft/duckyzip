@@ -13,7 +13,7 @@ DuckyZip is the first provably honest URL shortening service which cannot select
 
 [Read Paper](https://eprint.iacr.org/2023/1069) - [Try It](https://ducky.zip)
 
-**This is a proof-of-concept implementation that is not yet fully ready and that is under active development.**
+**This is a proof-of-concept implementation that is under active development.**
 
 ## What Works
 
@@ -22,10 +22,9 @@ DuckyZip is the first provably honest URL shortening service which cannot select
 - [x] Database
 - [x] Sanitization
 - [X] Captcha
-- [X] [Smart Contract](https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0)
 - [X] VRF
+- [X] [Smart Contract](https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0)
 - [ ] Improve UX
 - [ ] Mobile UX
+- [ ] Clearer Verification Instructions
 - [ ] Verification via Third Party Code
-
-Importantly, **the VRF and smart contract features are still not implemented!**
