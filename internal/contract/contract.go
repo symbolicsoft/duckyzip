@@ -3,15 +3,7 @@
 
 package contract
 
-import (
-	"crypto/ecdsa"
-	"log"
-	"os"
-	"path/filepath"
-
-	"github.com/ethereum/go-ethereum/crypto"
-)
-
+/*
 var ethPrivKey = func() *ecdsa.PrivateKey {
 	keyStringBytes, err := os.ReadFile(filepath.Join("secret", "ethPrivKey.txt"))
 	if err != nil {
@@ -23,3 +15,4 @@ var ethPrivKey = func() *ecdsa.PrivateKey {
 	}
 	return privateKey
 }()
+*/
