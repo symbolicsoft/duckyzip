@@ -4,18 +4,9 @@
 package vrf
 
 import (
-	"log"
-
 	"ducky.zip/m/v2/internal/secret"
 	"github.com/coniks-sys/coniks-go/crypto/vrf"
 )
-
-func Test() {
-	_, err := vrf.GenerateKey(nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
 
 func GenShortURLProof(shortURL string) ([]byte, []byte) {
 	vrfValue, vrfProof := vrf.PrivateKey(secret.Store.VRFK0).Prove([]byte(shortURL))

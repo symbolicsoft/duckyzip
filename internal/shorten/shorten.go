@@ -5,7 +5,6 @@ package shorten
 
 import (
 	"errors"
-	"fmt"
 
 	"ducky.zip/m/v2/internal/sanitize"
 	"ducky.zip/m/v2/internal/store"
@@ -40,6 +39,5 @@ func GetLongURL(shortURL string) (string, error) {
 	if !sanitize.CheckLongURL(urlEntry.LongURL) {
 		return "", errors.New("somehow stored invalid long url")
 	}
-	fmt.Println(urlEntry)
 	return urlEntry.LongURL, err
 }
