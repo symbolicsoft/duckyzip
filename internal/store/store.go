@@ -4,12 +4,10 @@
 package store
 
 import (
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"log"
 
-	"ducky.zip/m/v2/internal/vrf"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 )
@@ -30,22 +28,13 @@ type URLEntry struct {
 	VRFProof1 string
 }
 
-func PutURLEntry(shortURL string, longURL string) error {
+func PutURLEntry(shortURL string, urlEntry URLEntry) error {
 	has, err := Has(shortURL)
 	if has {
 		return errors.New("refusing to overwrite entry")
 	}
 	if err != nil {
 		return err
-	}
-	vrfValue0, vrfProof0 := vrf.GenShortURLProof(shortURL)
-	vrfValue1, vrfProof1 := vrf.GenLongURLProof(longURL)
-	urlEntry := URLEntry{
-		LongURL:   longURL,
-		VRFValue0: hex.EncodeToString(vrfValue0),
-		VRFProof0: hex.EncodeToString(vrfProof0),
-		VRFValue1: hex.EncodeToString(vrfValue1),
-		VRFProof1: hex.EncodeToString(vrfProof1),
 	}
 	urlEntryString, err := json.Marshal(&urlEntry)
 	if err != nil {

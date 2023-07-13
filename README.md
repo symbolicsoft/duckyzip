@@ -23,7 +23,7 @@ DuckyZip is the first provably honest URL shortening service which cannot select
 - [x] Sanitization
 - [X] Captcha
 - [ ] Smart Contract
-- [ ] VRF
+- [X] VRF
 - [ ] Improve UX
 - [ ] Mobile UX
 - [ ] Verification via Third Party Code

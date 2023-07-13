@@ -4,19 +4,23 @@
 package shorten
 
 import (
+	"encoding/hex"
 	"errors"
 
 	"ducky.zip/m/v2/internal/sanitize"
 	"ducky.zip/m/v2/internal/store"
+	"ducky.zip/m/v2/internal/vrf"
 )
 
 func GenShortURL(longURL string) (string, error) {
 	var shortURL string
 	var err error
 	alreadyInDatabase := true
+	length := 8
 	for alreadyInDatabase {
 		shortURL = RandomString(8)
 		alreadyInDatabase, err = store.Has(shortURL)
+		length++
 		if err != nil {
 			return shortURL, err
 		}
@@ -24,7 +28,15 @@ func GenShortURL(longURL string) (string, error) {
 	if !sanitize.CheckShortURL(shortURL) {
 		return shortURL, errors.New("somehow generated invalid short url")
 	}
-	err = store.PutURLEntry(shortURL, longURL)
+	vrfValue0, vrfProof0 := vrf.GenShortURLProof(shortURL)
+	vrfValue1, vrfProof1 := vrf.GenLongURLProof(longURL)
+	err = store.PutURLEntry(shortURL, store.URLEntry{
+		LongURL:   longURL,
+		VRFValue0: hex.EncodeToString(vrfValue0),
+		VRFProof0: hex.EncodeToString(vrfProof0),
+		VRFValue1: hex.EncodeToString(vrfValue1),
+		VRFProof1: hex.EncodeToString(vrfProof1),
+	})
 	return shortURL, err
 }
 
