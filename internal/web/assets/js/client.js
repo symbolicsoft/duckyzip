@@ -24,7 +24,17 @@ const shortenURLFormSubmit = (cb) => {
 const shortenURLHandleResponse = (response) => {
 	switch (response.status) {
 		case `OK`:
-			displayMessage(`https://ducky.zip/${response.message}`, `good`)
+			const message = [
+				`Short URL: https://ducky.zip/${response.shortURL}`,
+				``,
+				`VRF Proof committed to <a href="https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0">smart contract</a>.`,
+				`Committed key: <span class="mono">${response.vrfValue0}${response.vrfProof0}</span>`,
+				`Committed value: <span class="mono">${response.vrfValue1}${response.vrfProof1}</span>`,
+				``,
+				`DuckyZip's VRF public keys are hard-coded into the smart contract`,
+				`as values <strong>VRFPK0</strong> and <strong>VRFPK1</strong>.` 
+			].join('<br />')
+			displayMessage(message, `good`)
 			recycleCaptcha()
 			document.getElementById(`shortenInput`).value = ``
 			document.getElementById(`shortenInput`).focus()
@@ -40,7 +50,7 @@ const displayMessage = (message, kind) => {
 	const messageArea = document.getElementById(`messageArea`)
 	switch (kind) {
 		case `good`:
-			messageArea.innerText = message
+			messageArea.innerHTML = message
 			messageArea.classList.remove(`bad`)
 			messageArea.classList.add(`good`)
 			break

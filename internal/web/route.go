@@ -94,7 +94,7 @@ func routeShorten(c *gin.Context) {
 		})
 		return
 	}
-	shortURL, err := shorten.GenShortURL(longURL)
+	shortURL, urlEntry, err := shorten.GenShortURL(longURL)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -103,8 +103,12 @@ func routeShorten(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "OK",
-		"message": shortURL,
+		"status":    "OK",
+		"shortURL":  shortURL,
+		"vrfValue0": urlEntry.VRFValue0,
+		"vrfProof0": urlEntry.VRFProof0,
+		"vrfValue1": urlEntry.VRFValue1,
+		"vrfProof1": urlEntry.VRFProof1,
 	})
 }
 

@@ -7,7 +7,7 @@ import "regexp"
 
 var regexpMap = map[string]*regexp.Regexp{
 	"shortURL":      regexp.MustCompile(`^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{8,13}$`),
-	"longURL":       regexp.MustCompile(`^([a-z0-9]{3,10}):\/\/[A-z0-9_-]*?[:]?[A-z0-9_-]*?[@]?[A-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$`),
+	"longURL":       regexp.MustCompile(`^([a-z0-9]{3,10}):\/\/[A-z0-9_-]*?[:]?[A-z0-9_-]*?[@]?[A-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,20}(:[0-9]{1,5})?(\/.*)?$`),
 	"assetCategory": regexp.MustCompile(`^(css|img|js)$`),
 	"assetName":     regexp.MustCompile(`^[a-zA-Z0-9]{1,32}\.(css|js|png)$`),
 }

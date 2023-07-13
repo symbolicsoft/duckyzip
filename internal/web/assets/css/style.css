@@ -2,6 +2,10 @@ body {
 	font-family: sans-serif;
 }
 
+span.mono {
+	font-family: monospace;
+}
+
 div#main {
 	width: 90%;
 	max-width: 800px;
@@ -78,15 +82,16 @@ div#captchaSection input#captchaResponse {
 
 div#messageArea {
 	padding: 10px;
-	color: #FFF;
 	font-weight: bold;
 	margin-top: 20px;
+	word-wrap: break-word;
+	border-radius: 5px;
 }
 
 div#messageArea.good {
-	background-color: green;
+	border: 2px dashed green;
 }
 
 div#messageArea.bad {
-	background-color: red;
+	border: 2px dashed red;
 }
