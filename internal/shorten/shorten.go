@@ -56,16 +56,16 @@ func GenShortURL(longURL string) (string, store.URLEntry, error) {
 	return shortURL, urlEntry, err
 }
 
-func GetLongURL(shortURL string) (string, error) {
+func GetLongURL(shortURL string) (store.URLEntry, error) {
 	if !sanitize.CheckShortURL(shortURL) {
-		return "", errors.New("invalid short url")
+		return store.URLEntry{}, errors.New("invalid short url")
 	}
 	urlEntry, err := store.GetURLEntry(shortURL)
 	if err != nil {
-		return "", err
+		return store.URLEntry{}, err
 	}
 	if !sanitize.CheckLongURL(urlEntry.LongURL) {
-		return "", errors.New("somehow stored invalid long url")
+		return store.URLEntry{}, errors.New("somehow stored invalid long url")
 	}
-	return urlEntry.LongURL, err
+	return urlEntry, err
 }

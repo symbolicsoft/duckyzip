@@ -1,1 +1,55 @@
-<meta http-equiv="refresh" content="{{ .delay }};URL='{{ .longURL }}'" /> 
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, height=device-height">
+	<meta property="article:publisher" content="Symbolic Software" />
+	<meta property="og:site_name" content="DuckyZip: Provably Honest URL Shortener" />
+	<meta property="og:type" content="website" />
+	<meta name="author" content="Symbolic Software">
+	<meta name="twitter:site" content="@symbolicsoft" />
+	<meta name="twitter:creator" content="@symbolicsoft" />
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="DuckyZip: Provably Honest URL Shortener" />
+	<meta name="twitter:text:title" content="DuckyZip: Provably Honest URL Shortener" />
+	<meta name="description" content="Shorten URLs more safely and privately with DuckyZip, a secure, provably honest, open source URL shortening service.">
+	<meta property="og:description" content="Shorten URLs more safely and privately with DuckyZip, a secure, provably honest, open source URL shortening service." />
+	<meta property="og:image" content="https://ducky.zip/assets/img/logo.png" />
+	<meta name="twitter:image" content="https://ducky.zip/res/img/logo.png" />
+	<meta property="og:url" content="https://ducky.zip" />
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="/assets/css/font.css">
+	<link rel="icon" type="image/png" href="/assets/img/logo.png" />
+	<title>DuckyZip: Provably Honest URL Shortener</title>
+	<meta http-equiv="refresh" content="{{ .delay }};URL='{{ .longURL }}'" /> 
+</head>
+
+<body>
+	<div id="main">
+		<img src="/assets/img/logo.png" alt="" id="logo" draggable="false" />
+		<h1>DuckyZip</h1>
+		<h2>Provably Honest URL Shortener</h2>
+		<p id="intro">
+			This URL was shortened with DuckyZip, the provably honest URL shortener!
+			<br />
+			DuckyZip will shortly redirect you to {{ .longURL }}.
+			<br /><br />
+			Unlike other URL shorteners, DuckyZip can't maliciously redirect you to a URL that's different than the one intended by the person who generated the short link (https://ducky.zip/{{ .shortURL }}) without being detected.
+			<br /><br />
+			VRF Proof committed to <a href="https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0">smart contract</a>:
+			<br />
+			Committed key: <span class="mono">{{ .vrfValue0 }}{{ .vrfProof0 }}</span>
+			<br />
+			Committed value: <span class="mono">{{ .vrfValue1 }}{{ .vrfProof1 }}</span>
+			<br /><br />
+			DuckyZip's VRF public keys are hard-coded into the smart contract
+			<br />
+			as values <strong>VRFPK0</strong> and <strong>VRFPK1</strong>.
+			<br /><br />
+			We will soon make it easier to verify the above proof values.
+		</p>
+	</div>
+</body>
+
+</html>

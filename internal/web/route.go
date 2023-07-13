@@ -123,7 +123,7 @@ func routeLengthen(c *gin.Context) {
 		})
 		return
 	}
-	longURL, err := shorten.GetLongURL(shortURL)
+	urlEntry, err := shorten.GetLongURL(shortURL)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -132,7 +132,12 @@ func routeLengthen(c *gin.Context) {
 		return
 	}
 	c.HTML(http.StatusOK, "redirect.html", gin.H{
-		"delay":   0,
-		"longURL": longURL,
+		"delay":     10,
+		"shortURL":  shortURL,
+		"longURL":   urlEntry.LongURL,
+		"vrfValue0": urlEntry.VRFValue0,
+		"vrfProof0": urlEntry.VRFProof0,
+		"vrfValue1": urlEntry.VRFValue1,
+		"vrfProof1": urlEntry.VRFProof1,
 	})
 }
