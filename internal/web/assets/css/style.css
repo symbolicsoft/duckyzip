@@ -82,7 +82,6 @@ div#captchaSection input#captchaResponse {
 
 div#messageArea {
 	padding: 10px;
-	font-weight: bold;
 	margin-top: 20px;
 	word-wrap: break-word;
 	border-radius: 5px;
