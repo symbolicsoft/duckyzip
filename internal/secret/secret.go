@@ -14,9 +14,10 @@ import (
 )
 
 type StoreLoad struct {
-	VRFK0 string
-	VRFK1 string
-	EthSK string
+	VRFK0  string
+	VRFK1  string
+	EthSK  string
+	Infura string
 }
 
 type StoreStruct struct {
@@ -25,6 +26,7 @@ type StoreStruct struct {
 	VRFPK0 []byte
 	VRFPK1 []byte
 	EthSK  []byte
+	Infura string
 }
 
 var Store = func() StoreStruct {
@@ -74,5 +76,6 @@ var Store = func() StoreStruct {
 	if err != nil {
 		log.Fatal("could not decode ethsk")
 	}
+	store.Infura = loader.Infura
 	return store
 }()
