@@ -9,6 +9,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/coniks-sys/coniks-go/crypto/vrf"
 )
 
 type StoreLoad struct {
@@ -18,14 +20,17 @@ type StoreLoad struct {
 }
 
 type StoreStruct struct {
-	VRFK0 []byte
-	VRFK1 []byte
-	EthSK []byte
+	VRFK0  []byte
+	VRFK1  []byte
+	VRFPK0 []byte
+	VRFPK1 []byte
+	EthSK  []byte
 }
 
 var Store = func() StoreStruct {
 	loader := StoreLoad{}
 	store := StoreStruct{}
+	ok := false
 	data, err := os.ReadFile(filepath.Join("internal", "secret", "assets", "secrets.json"))
 	if err != nil {
 		log.Fatal("could not find secrets")
@@ -53,9 +58,17 @@ var Store = func() StoreStruct {
 	if err != nil {
 		log.Fatal("could not decode vrfk0")
 	}
+	store.VRFPK0, ok = vrf.PrivateKey(store.VRFK0).Public()
+	if !ok {
+		log.Fatal("could not calculate vrfk0 public key")
+	}
 	store.VRFK1, err = hex.DecodeString(loader.VRFK1)
 	if err != nil {
 		log.Fatal("could not decode vrfk1")
+	}
+	store.VRFPK1, ok = vrf.PrivateKey(store.VRFK1).Public()
+	if !ok {
+		log.Fatal("could not calculate vrfk1 public key")
 	}
 	store.EthSK, err = hex.DecodeString(loader.EthSK)
 	if err != nil {

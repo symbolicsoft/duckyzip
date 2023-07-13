@@ -4,8 +4,12 @@
 package store
 
 import (
+	"encoding/hex"
+	"encoding/json"
+	"errors"
 	"log"
 
+	"ducky.zip/m/v2/internal/vrf"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 )
@@ -18,19 +22,52 @@ var Database = func() *leveldb.DB {
 	return db
 }()
 
-func Put(key string, value string) error {
-	return Database.Put([]byte(key), []byte(value), &opt.WriteOptions{
+type URLEntry struct {
+	LongURL   string
+	VRFValue0 string
+	VRFProof0 string
+	VRFValue1 string
+	VRFProof1 string
+}
+
+func PutURLEntry(shortURL string, longURL string) error {
+	has, err := Has(shortURL)
+	if has {
+		return errors.New("refusing to overwrite entry")
+	}
+	if err != nil {
+		return err
+	}
+	vrfValue0, vrfProof0 := vrf.GenShortURLProof(shortURL)
+	vrfValue1, vrfProof1 := vrf.GenLongURLProof(longURL)
+	urlEntry := URLEntry{
+		LongURL:   longURL,
+		VRFValue0: hex.EncodeToString(vrfValue0),
+		VRFProof0: hex.EncodeToString(vrfProof0),
+		VRFValue1: hex.EncodeToString(vrfValue1),
+		VRFProof1: hex.EncodeToString(vrfProof1),
+	}
+	urlEntryString, err := json.Marshal(&urlEntry)
+	if err != nil {
+		return err
+	}
+	return Database.Put([]byte(shortURL), []byte(urlEntryString), &opt.WriteOptions{
 		Sync: true,
 	})
 }
 
-func Get(key string) (string, error) {
-	value, err := Database.Get([]byte(key), &opt.ReadOptions{})
-	return string(value), err
+func GetURLEntry(shortURL string) (URLEntry, error) {
+	urlEntry := URLEntry{}
+	urlEntryBytes, err := Database.Get([]byte(shortURL), &opt.ReadOptions{})
+	if err != nil {
+		return URLEntry{}, err
+	}
+	err = json.Unmarshal(urlEntryBytes, &urlEntry)
+	return urlEntry, err
 }
 
-func Has(key string) (bool, error) {
-	return Database.Has([]byte(key), &opt.ReadOptions{})
+func Has(shortURL string) (bool, error) {
+	return Database.Has([]byte(shortURL), &opt.ReadOptions{})
 }
 
 func CloseDatabase() {
