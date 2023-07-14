@@ -32,7 +32,7 @@ const shortenURLHandleResponse = (response) => {
 				`Committed value: <span class="mono">${response.vrfValue1}${response.vrfProof1}</span>`,
 				``,
 				`DuckyZip's VRF public keys are hard-coded into the smart contract`,
-				`as values <strong>VRFPK0</strong> and <strong>VRFPK1</strong>.`
+				`as values <strong>VRFPK0</strong> and <strong>VRFPK1</strong>.`,
 				`We will soon make it easier to verify the above proof values.`
 			].join('<br />')
 			displayMessage(message, `good`)
