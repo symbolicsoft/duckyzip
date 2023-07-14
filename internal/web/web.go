@@ -27,6 +27,7 @@ func StartServer() {
 	router.GET("/captcha", routeCaptcha)
 	router.POST("/shorten", routeShorten)
 	router.GET("/:shortURL", routeLengthen)
+	router.GET("/info/:shortURL", routeInfo)
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}

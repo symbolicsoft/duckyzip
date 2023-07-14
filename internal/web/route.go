@@ -141,3 +141,31 @@ func routeLengthen(c *gin.Context) {
 		"vrfProof1": urlEntry.VRFProof1,
 	})
 }
+
+func routeInfo(c *gin.Context) {
+	c.Request.Close = true
+	shortURL := c.Param("shortURL")
+	if !sanitize.CheckShortURL(shortURL) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": "Invalid URL",
+		})
+		return
+	}
+	urlEntry, err := shorten.GetLongURL(shortURL)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"shortURL":  shortURL,
+		"longURL":   urlEntry.LongURL,
+		"vrfValue0": urlEntry.VRFValue0,
+		"vrfProof0": urlEntry.VRFProof0,
+		"vrfValue1": urlEntry.VRFValue1,
+		"vrfProof1": urlEntry.VRFProof1,
+	})
+}
