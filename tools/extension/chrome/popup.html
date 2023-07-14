@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, height=device-height">
+	<title>DuckyZip</title>
+	</script>
+	<style>
+	</style>
+</head>
+
+<body>
+	<script src="wasm_exec.js"></script>
+	<script>
+		const go = new Go();
+        WebAssembly.instantiateStreaming(fetch(`vrf.wasm`), go.importObject).then((result) => {
+            go.run(result.instance)
+        })
+	</script>
+</body>
+
+</html>
