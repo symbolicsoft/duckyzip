@@ -7,24 +7,8 @@
 
 <img src="https://ducky.zip/assets/img/logo.png" alt="" align="left" height="256" style="margin:10px" />
 
-URL shorteners are a common online service that allows the shortening of a long URL (often a Google Maps URL or similar) into a much shorter one, to use for example on social media or in QR codes. However, URL shorteners are free to behave dishonestly: they can, for instance, map a short URL into a long URL honestly for one party, while redirecting some other party into a different malicious long URL for the same short URL.
-
-DuckyZip is the first provably honest URL shortening service which cannot selectively provide different "long URLs" to different parties undetected. DuckyZip uses a combination of Verifiable Random Function (VRF) constructions and a smart contract in order to provide a URL shortening service with strong security guarantees: despite the transparency of the smart contract log, observers cannot feasibly create a mapping of all short URLs to long URLs that is faster than classical enumeration.
+DuckyZip is a provably honest global linking service which links short memorable identifiers to arbitrarily large payloads (URLs, text, documents, archives, etc.) without being able to undetectably provide different payloads for the same short identifier to different parties. DuckyZip uses a combination of Verifiable Random Function (VRF)-based zero knowledge proofs and a smart contract in order to provide strong security guarantees: despite the transparency of the smart contract log, observers cannot feasibly create a mapping of all short identifiers to payloads that is faster than O(n) classical enumeration.
 
 [Read Paper](https://eprint.iacr.org/2023/1069) - [Try It](https://ducky.zip)
 
 **This is a proof-of-concept implementation that is under active development.**
-
-## What Works
-
-- [x] Web Server
-- [x] Shorten URLs
-- [x] Database
-- [x] Sanitization
-- [X] Captcha
-- [X] VRF
-- [X] [Smart Contract](https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0)
-- [ ] Improve UX
-- [ ] Mobile UX
-- [ ] Clearer Verification Instructions
-- [ ] Verification via Third Party Code

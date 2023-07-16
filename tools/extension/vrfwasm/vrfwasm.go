@@ -16,29 +16,29 @@ var VRFPK0, VRFPK1 = func() ([]byte, []byte) {
 	return vrfpk0, vrfpk1
 }()
 
-func VerifyShortURLProof(this js.Value, args []js.Value) any {
-	shortURL := []byte(args[0].String())
+func VerifyShortIDProof(this js.Value, args []js.Value) any {
+	shortID := []byte(args[0].String())
 	vrfValue, err1 := hex.DecodeString(args[1].String())
 	vrfProof, err2 := hex.DecodeString(args[2].String())
 	if err1 != nil || err2 != nil {
 		return false
 	}
-	return vrf.PublicKey(VRFPK0).Verify(shortURL, vrfValue, vrfProof)
+	return vrf.PublicKey(VRFPK0).Verify(shortID, vrfValue, vrfProof)
 }
 
-func VerifyLongURLProof(this js.Value, args []js.Value) any {
-	shortURL := []byte(args[0].String())
+func VerifyPayloadProof(this js.Value, args []js.Value) any {
+	shortID := []byte(args[0].String())
 	vrfValue, err1 := hex.DecodeString(args[1].String())
 	vrfProof, err2 := hex.DecodeString(args[2].String())
 	if err1 != nil || err2 != nil {
 		return false
 	}
-	return vrf.PublicKey(VRFPK1).Verify(shortURL, vrfValue, vrfProof)
+	return vrf.PublicKey(VRFPK1).Verify(shortID, vrfValue, vrfProof)
 }
 
 func main() {
 	done := make(chan struct{}, 0)
-	js.Global().Set("VerifyShortURLProof", js.FuncOf(VerifyShortURLProof))
-	js.Global().Set("VerifyLongURLProof", js.FuncOf(VerifyLongURLProof))
+	js.Global().Set("VerifyShortIDProof", js.FuncOf(VerifyShortIDProof))
+	js.Global().Set("VerifyPayloadProof", js.FuncOf(VerifyPayloadProof))
 	<-done
 }

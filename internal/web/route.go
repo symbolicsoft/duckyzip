@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"ducky.zip/m/v2/internal/link"
 	"ducky.zip/m/v2/internal/sanitize"
-	"ducky.zip/m/v2/internal/shorten"
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 )
@@ -74,10 +74,10 @@ func routeCaptcha(c *gin.Context) {
 	})
 }
 
-func routeShorten(c *gin.Context) {
+func routeLink(c *gin.Context) {
 	c.Request.Close = true
 	time.Sleep(time.Second * 1)
-	longURL := c.PostForm("longURL")
+	payload := c.PostForm("payload")
 	captchaID := c.PostForm("captchaID")
 	captchaResponse := c.PostForm("captchaResponse")
 	if !captcha.VerifyString(captchaID, captchaResponse) {
@@ -87,14 +87,14 @@ func routeShorten(c *gin.Context) {
 		})
 		return
 	}
-	if !sanitize.CheckLongURL(longURL) {
+	if !sanitize.CheckPayload(payload) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid URL",
+			"message": "Invalid Payload",
 		})
 		return
 	}
-	shortURL, urlEntry, err := shorten.GenShortURL(longURL)
+	shortID, dbEntry, err := link.GenShortID(payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -104,26 +104,26 @@ func routeShorten(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":    "OK",
-		"shortURL":  shortURL,
-		"vrfValue0": urlEntry.VRFValue0,
-		"vrfProof0": urlEntry.VRFProof0,
-		"vrfValue1": urlEntry.VRFValue1,
-		"vrfProof1": urlEntry.VRFProof1,
+		"shortID":   shortID,
+		"vrfValue0": dbEntry.VRFValue0,
+		"vrfProof0": dbEntry.VRFProof0,
+		"vrfValue1": dbEntry.VRFValue1,
+		"vrfProof1": dbEntry.VRFProof1,
 	})
 }
 
 func routeLengthen(c *gin.Context) {
 	c.Request.Close = true
 	time.Sleep(time.Second * 1)
-	shortURL := c.Param("shortURL")
-	if !sanitize.CheckShortURL(shortURL) {
+	shortID := c.Param("shortID")
+	if !sanitize.CheckShortID(shortID) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid URL",
+			"message": "Invalid Payload",
 		})
 		return
 	}
-	urlEntry, err := shorten.GetLongURL(shortURL)
+	dbEntry, err := link.GetPayload(shortID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -133,26 +133,26 @@ func routeLengthen(c *gin.Context) {
 	}
 	c.HTML(http.StatusOK, "redirect.html", gin.H{
 		"delay":     10,
-		"shortURL":  shortURL,
-		"longURL":   urlEntry.LongURL,
-		"vrfValue0": urlEntry.VRFValue0,
-		"vrfProof0": urlEntry.VRFProof0,
-		"vrfValue1": urlEntry.VRFValue1,
-		"vrfProof1": urlEntry.VRFProof1,
+		"shortID":   shortID,
+		"payload":   dbEntry.Payload,
+		"vrfValue0": dbEntry.VRFValue0,
+		"vrfProof0": dbEntry.VRFProof0,
+		"vrfValue1": dbEntry.VRFValue1,
+		"vrfProof1": dbEntry.VRFProof1,
 	})
 }
 
 func routeInfo(c *gin.Context) {
 	c.Request.Close = true
-	shortURL := c.Param("shortURL")
-	if !sanitize.CheckShortURL(shortURL) {
+	shortID := c.Param("shortID")
+	if !sanitize.CheckShortID(shortID) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid URL",
+			"message": "Invalid Payload",
 		})
 		return
 	}
-	urlEntry, err := shorten.GetLongURL(shortURL)
+	dbEntry, err := link.GetPayload(shortID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -161,11 +161,11 @@ func routeInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"shortURL":  shortURL,
-		"longURL":   urlEntry.LongURL,
-		"vrfValue0": urlEntry.VRFValue0,
-		"vrfProof0": urlEntry.VRFProof0,
-		"vrfValue1": urlEntry.VRFValue1,
-		"vrfProof1": urlEntry.VRFProof1,
+		"shortID":   shortID,
+		"payload":   dbEntry.Payload,
+		"vrfValue0": dbEntry.VRFValue0,
+		"vrfProof0": dbEntry.VRFProof0,
+		"vrfValue1": dbEntry.VRFValue1,
+		"vrfProof1": dbEntry.VRFProof1,
 	})
 }

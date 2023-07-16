@@ -25,9 +25,9 @@ func StartServer() {
 	router.GET("/", routeHome)
 	router.GET("/assets/:category/:filename", routeAssets)
 	router.GET("/captcha", routeCaptcha)
-	router.POST("/shorten", routeShorten)
-	router.GET("/:shortURL", routeLengthen)
-	router.GET("/info/:shortURL", routeInfo)
+	router.POST("/link", routeLink)
+	router.GET("/:shortID", routeLengthen)
+	router.GET("/info/:shortID", routeInfo)
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}

@@ -38,12 +38,12 @@ div#main p#intro {
 	word-wrap: break-word;
 }
 
-div#shortenForm {
+div#linkForm {
 	margin-top: 50px;
 	overflow: auto;
 }
 
-div#shortenForm input#shortenInput {
+div#linkForm input#linkInput {
 	padding: 5px;
 	font-size: 1.2em;
 	margin-bottom: 20px;
@@ -51,7 +51,7 @@ div#shortenForm input#shortenInput {
 	display: block;
 }
 
-div#shortenForm button#shortenButton {
+div#linkForm button#linkButton {
 	float: right;
 	width: 100px;
 	height: 100px;

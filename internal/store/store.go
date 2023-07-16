@@ -20,43 +20,43 @@ var Database = func() *leveldb.DB {
 	return db
 }()
 
-type URLEntry struct {
-	LongURL   string
+type DBEntry struct {
+	Payload   string
 	VRFValue0 string
 	VRFProof0 string
 	VRFValue1 string
 	VRFProof1 string
 }
 
-func PutURLEntry(shortURL string, urlEntry URLEntry) error {
-	has, err := Has(shortURL)
+func PutDBEntry(shortID string, dbEntry DBEntry) error {
+	has, err := Has(shortID)
 	if has {
 		return errors.New("refusing to overwrite entry")
 	}
 	if err != nil {
 		return err
 	}
-	urlEntryString, err := json.Marshal(&urlEntry)
+	dbEntryString, err := json.Marshal(&dbEntry)
 	if err != nil {
 		return err
 	}
-	return Database.Put([]byte(shortURL), []byte(urlEntryString), &opt.WriteOptions{
+	return Database.Put([]byte(shortID), []byte(dbEntryString), &opt.WriteOptions{
 		Sync: true,
 	})
 }
 
-func GetURLEntry(shortURL string) (URLEntry, error) {
-	urlEntry := URLEntry{}
-	urlEntryBytes, err := Database.Get([]byte(shortURL), &opt.ReadOptions{})
+func GetDBEntry(shortID string) (DBEntry, error) {
+	dbEntry := DBEntry{}
+	dbEntryBytes, err := Database.Get([]byte(shortID), &opt.ReadOptions{})
 	if err != nil {
-		return URLEntry{}, err
+		return DBEntry{}, err
 	}
-	err = json.Unmarshal(urlEntryBytes, &urlEntry)
-	return urlEntry, err
+	err = json.Unmarshal(dbEntryBytes, &dbEntry)
+	return dbEntry, err
 }
 
-func Has(shortURL string) (bool, error) {
-	return Database.Has([]byte(shortURL), &opt.ReadOptions{})
+func Has(shortID string) (bool, error) {
+	return Database.Has([]byte(shortID), &opt.ReadOptions{})
 }
 
 func CloseDatabase() {

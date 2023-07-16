@@ -8,12 +8,12 @@ import (
 	"github.com/coniks-sys/coniks-go/crypto/vrf"
 )
 
-func GenShortURLProof(shortURL string) ([]byte, []byte) {
-	vrfValue, vrfProof := vrf.PrivateKey(secret.Store.VRFK0).Prove([]byte(shortURL))
+func GenShortIDProof(shortID string) ([]byte, []byte) {
+	vrfValue, vrfProof := vrf.PrivateKey(secret.Store.VRFK0).Prove([]byte(shortID))
 	return vrfValue, vrfProof
 }
 
-func GenLongURLProof(longURL string) ([]byte, []byte) {
-	vrfValue, vrfProof := vrf.PrivateKey(secret.Store.VRFK1).Prove([]byte(longURL))
+func GenPayloadProof(payload string) ([]byte, []byte) {
+	vrfValue, vrfProof := vrf.PrivateKey(secret.Store.VRFK1).Prove([]byte(payload))
 	return vrfValue, vrfProof
 }

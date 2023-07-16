@@ -5,41 +5,43 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, height=device-height">
 	<meta property="article:publisher" content="Symbolic Software" />
-	<meta property="og:site_name" content="DuckyZip: Provably Honest URL Shortener" />
+	<meta property="og:site_name" content="DuckyZip: Provably Honest Global Linking Service" />
 	<meta property="og:type" content="website" />
 	<meta name="author" content="Symbolic Software">
 	<meta name="twitter:site" content="@symbolicsoft" />
 	<meta name="twitter:creator" content="@symbolicsoft" />
 	<meta name="twitter:card" content="summary" />
-	<meta property="og:title" content="DuckyZip: Provably Honest URL Shortener" />
-	<meta name="twitter:text:title" content="DuckyZip: Provably Honest URL Shortener" />
-	<meta name="description" content="Shorten URLs more safely and privately with DuckyZip, a secure, provably honest, open source URL shortening service.">
-	<meta property="og:description" content="Shorten URLs more safely and privately with DuckyZip, a secure, provably honest, open source URL shortening service." />
+	<meta property="og:title" content="DuckyZip: Provably Honest Global Linking Service" />
+	<meta name="twitter:text:title" content="DuckyZip: Provably Honest Global Linking Service" />
+	<meta name="description" content="DuckyZip is a provably honest global linking service which links short memorable identifiers to arbitrarily large payloads (URLs, text, documents, archives, etc.) without being able to undetectably provide different payloads for the same short identifier to different parties.">
+	<meta property="og:description" content="DuckyZip is a provably honest global linking service which links short memorable identifiers to arbitrarily large payloads (URLs, text, documents, archives, etc.) without being able to undetectably provide different payloads for the same short identifier to different parties." />
 	<meta property="og:image" content="https://ducky.zip/assets/img/logo.png" />
 	<meta name="twitter:image" content="https://ducky.zip/res/img/logo.png" />
 	<meta property="og:url" content="https://ducky.zip" />
 	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="/assets/css/font.css">
 	<link rel="icon" type="image/png" href="/assets/img/logo.png" />
-	<title>DuckyZip: Provably Honest URL Shortener</title>
+	<title>DuckyZip: Provably Honest Global Linking Service</title>
 </head>
 
 <body>
 	<div id="main">
 		<img src="/assets/img/logo.png" alt="" id="logo" draggable="false" />
 		<h1>DuckyZip</h1>
-		<h2>Provably Honest URL Shortener</h2>
+		<h2>Provably Honest Global Linking Service</h2>
 		<p id="intro">
-			Shorten URLs more safely and privately with DuckyZip, a secure, provably honest, open source URL shortening service. <strong>Under active development!</strong> &bull; <a href="https://eprint.iacr.org/2023/1069">Read the paper</a> &bull; <a href="https://github.com/symbolicsoft/duckyzip">Code on Github</a> &bull; <a href="https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0">Smart contract</a> &bull; <a href="https://symbolicsoft.creator-spring.com">Merch</a>
+			DuckyZip is a provably honest global linking service which links short memorable identifiers to arbitrarily large payloads (URLs, text, documents, archives, etc.) without being able to undetectably provide different payloads for the same short identifier to different parties.
+			<br />
+			<strong>Under active development!</strong> &bull; <a href="https://eprint.iacr.org/2023/1069">Read the paper</a> &bull; <a href="https://github.com/symbolicsoft/duckyzip">Code on Github</a> &bull; <a href="https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0">Smart contract</a> &bull; <a href="https://symbolicsoft.creator-spring.com">Merch</a>
 		</p>
-		<div id="shortenForm">
-			<input id="shortenInput" type="text" placeholder="URL to Shorten" />
+		<div id="linkForm">
+			<input id="linkInput" type="text" placeholder="Payload" />
 			<div id="captchaSection">
 				<input id="captchaID" readonly="readonly" type="text" value=""/>
 				<img id="captchaImg" draggable="false" src="" alt="Captcha" />
 				<input id="captchaResponse" type="text" placeholder="Verify you're not a robot" />
 			</div>
-			<button id="shortenButton">Shorten</button>
+			<button id="linkButton">Link</button>
 		</div>
 		<div id="messageArea"></div>
 	</div>

@@ -8,24 +8,24 @@ const postData = async (url, formData) => {
 	return response.json()
 }
 
-const shortenURLFormSubmit = (cb) => {
-	const longURL = document.getElementById(`shortenInput`).value.trim()
+const linkFormSubmit = (cb) => {
+	const payload = document.getElementById(`linkInput`).value.trim()
 	const captchaID = document.getElementById(`captchaID`).value
 	const captchaResponse = document.getElementById(`captchaResponse`).value
 	const formData = new FormData()
-	formData.append(`longURL`, longURL)
+	formData.append(`payload`, payload)
 	formData.append(`captchaID`, captchaID)
 	formData.append(`captchaResponse`, captchaResponse)
-	postData(`/shorten`, formData).then(response => {
+	postData(`/link`, formData).then(response => {
 		cb(response)
 	})
 }
 
-const shortenURLHandleResponse = (response) => {
+const linkHandleResponse = (response) => {
 	switch (response.status) {
 		case `OK`:
 			const message = [
-				`Short URL: https://ducky.zip/${response.shortURL}`,
+				`Short ID: https://ducky.zip/${response.shortID}`,
 				``,
 				`VRF Proof committed to <a href="https://optimistic.etherscan.io/address/0x082ff59678c0c5781f164c29c5a8f90008d5b1c0">smart contract</a>.`,
 				`Committed key: <span class="mono">${response.vrfValue0}${response.vrfProof0}</span>`,
@@ -37,8 +37,8 @@ const shortenURLHandleResponse = (response) => {
 			].join('<br />')
 			displayMessage(message, `good`)
 			recycleCaptcha()
-			document.getElementById(`shortenInput`).value = ``
-			document.getElementById(`shortenInput`).focus()
+			document.getElementById(`linkInput`).value = ``
+			document.getElementById(`linkInput`).focus()
 			break
 		default:
 			displayMessage(`Error: ${response.message}`, `bad`)
@@ -88,15 +88,15 @@ const recycleCaptcha = () => {
 	})	
 }
 
-document.getElementById(`shortenButton`).addEventListener(`click`, () => {
-	shortenURLFormSubmit(shortenURLHandleResponse)
+document.getElementById(`linkButton`).addEventListener(`click`, () => {
+	linkFormSubmit(linkHandleResponse)
 })
 
 document.getElementById(`captchaResponse`).addEventListener(`keypress`, (event) => {
 	if (event.key === `Enter`) {
-		document.getElementById(`shortenButton`).click()
+		document.getElementById(`linkButton`).click()
 	}
 })
 
 recycleCaptcha()
-document.getElementById(`shortenInput`).focus()
+document.getElementById(`linkInput`).focus()
