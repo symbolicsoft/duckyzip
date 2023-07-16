@@ -9,8 +9,10 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
+	"ducky.zip/m/v2/internal/contract"
 	"ducky.zip/m/v2/internal/link"
 	"ducky.zip/m/v2/internal/sanitize"
 	"github.com/dchest/captcha"
@@ -87,6 +89,13 @@ func routeLink(c *gin.Context) {
 		})
 		return
 	}
+	if len(payload) > (1024 * 10) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": "Payload Too Large",
+		})
+		return
+	}
 	if !sanitize.CheckPayload(payload) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
@@ -112,14 +121,14 @@ func routeLink(c *gin.Context) {
 	})
 }
 
-func routeLengthen(c *gin.Context) {
+func routePayload(c *gin.Context) {
 	c.Request.Close = true
 	time.Sleep(time.Second * 1)
 	shortID := c.Param("shortID")
 	if !sanitize.CheckShortID(shortID) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid Payload",
+			"message": "Invalid Short ID",
 		})
 		return
 	}
@@ -148,7 +157,7 @@ func routeInfo(c *gin.Context) {
 	if !sanitize.CheckShortID(shortID) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid Payload",
+			"message": "Invalid Short ID",
 		})
 		return
 	}
@@ -167,5 +176,51 @@ func routeInfo(c *gin.Context) {
 		"vrfProof0": dbEntry.VRFProof0,
 		"vrfValue1": dbEntry.VRFValue1,
 		"vrfProof1": dbEntry.VRFProof1,
+	})
+}
+
+func routeContract(c *gin.Context) {
+	c.Request.Close = true
+	time.Sleep(time.Second * 1)
+	shortID := c.Param("shortID")
+	if !sanitize.CheckShortID(shortID) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": "Invalid Short ID",
+		})
+		return
+	}
+	dbEntry, err := link.GetPayload(shortID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": err.Error(),
+		})
+		return
+	}
+	contractValue, err := contract.Read(strings.Join([]string{
+		dbEntry.VRFValue0, dbEntry.VRFProof0,
+	}, ""))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": err.Error(),
+		})
+		return
+	}
+	if len(contractValue) != 256 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "ERR",
+			"message": "Invalid Contract Value",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"shortID":   shortID,
+		"payload":   dbEntry.Payload,
+		"vrfValue0": dbEntry.VRFValue0,
+		"vrfProof0": dbEntry.VRFProof0,
+		"vrfValue1": contractValue[0:64],
+		"vrfProof1": contractValue[64:256],
 	})
 }
