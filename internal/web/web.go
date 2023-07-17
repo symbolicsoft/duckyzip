@@ -28,7 +28,7 @@ func StartServer() {
 	router.POST("/link", routeLink)
 	router.GET("/:shortID", routePayload)
 	router.GET("/info/:shortID", routeInfo)
-	router.GET("/contract/:shortID", routeContract)
+	router.GET("/contract/:vrfValue0/:vrfProof0", routeContract)
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}

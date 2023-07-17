@@ -1,0 +1,13 @@
+{
+	"name": "DuckyZip",
+	"description": "DuckyZip extension for Google Chrome.",
+	"version": "1.0",
+	"manifest_version": 3,
+	"content_security_policy": {
+		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self' 'wasm-unsafe-eval';"
+	},
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": "img/icon.png"
+	}
+}

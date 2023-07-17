@@ -17,6 +17,9 @@ var VRFPK0, VRFPK1 = func() ([]byte, []byte) {
 }()
 
 func VerifyShortIDProof(this js.Value, args []js.Value) any {
+	if len(args) != 3 {
+		return false
+	}
 	shortID := []byte(args[0].String())
 	vrfValue, err1 := hex.DecodeString(args[1].String())
 	vrfProof, err2 := hex.DecodeString(args[2].String())
@@ -27,6 +30,9 @@ func VerifyShortIDProof(this js.Value, args []js.Value) any {
 }
 
 func VerifyPayloadProof(this js.Value, args []js.Value) any {
+	if len(args) != 3 {
+		return false
+	}
 	shortID := []byte(args[0].String())
 	vrfValue, err1 := hex.DecodeString(args[1].String())
 	vrfProof, err2 := hex.DecodeString(args[2].String())

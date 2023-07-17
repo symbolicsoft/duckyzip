@@ -10,13 +10,12 @@
 </head>
 
 <body>
+	<div id="shortIDForm">
+		<input type="text" id="shortID" placeholder="Short ID">
+		<button id="shortIDButton">Go</button>
+	</div>
+	<div id="message"></div>
 	<script src="js/wasm_exec.js"></script>
-	<script>
-		const go = new Go()
-        WebAssembly.instantiateStreaming(fetch(`vrf.wasm`), go.importObject).then((result) => {
-            go.run(result.instance)
-        })
-	</script>
 	<script src="js/extension.js" type="module"></script>
 </body>
 

@@ -170,6 +170,7 @@ func routeInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
+		"status":    "OK",
 		"shortID":   shortID,
 		"payload":   dbEntry.Payload,
 		"vrfValue0": dbEntry.VRFValue0,
@@ -182,24 +183,17 @@ func routeInfo(c *gin.Context) {
 func routeContract(c *gin.Context) {
 	c.Request.Close = true
 	time.Sleep(time.Second * 1)
-	shortID := c.Param("shortID")
-	if !sanitize.CheckShortID(shortID) {
+	vrfValue0 := c.Param("vrfValue0")
+	vrfProof0 := c.Param("vrfProof0")
+	if len(vrfValue0)+len(vrfProof0) != 256 {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "ERR",
-			"message": "Invalid Short ID",
-		})
-		return
-	}
-	dbEntry, err := link.GetPayload(shortID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  "ERR",
-			"message": err.Error(),
+			"message": "Invalid Contract Value",
 		})
 		return
 	}
 	contractValue, err := contract.Read(strings.Join([]string{
-		dbEntry.VRFValue0, dbEntry.VRFProof0,
+		vrfValue0, vrfProof0,
 	}, ""))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -216,10 +210,7 @@ func routeContract(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"shortID":   shortID,
-		"payload":   dbEntry.Payload,
-		"vrfValue0": dbEntry.VRFValue0,
-		"vrfProof0": dbEntry.VRFProof0,
+		"status":    "OK",
 		"vrfValue1": contractValue[0:64],
 		"vrfProof1": contractValue[64:256],
 	})
